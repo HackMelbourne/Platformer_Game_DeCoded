@@ -43,8 +43,7 @@ class Level:
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
-        self.rect.x += self.direction.x * self.speed
-        self.rect.x += self.direction.x * self.speed
+        player.rect.x += player.direction.x * player.speed
 
     def run(self):
         # Level tiles
