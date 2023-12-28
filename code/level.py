@@ -19,12 +19,12 @@ class Level:
                 x = col_index * tile_size
                 y = row_index * tile_size
 
-                if cell == 'X':
-                    tile = Tile((x, y), tile_size)
-                    self.tiles.add(tile)
                 if cell == 'P':
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
+                elif cell != ' ':
+                    tile_sprite = Tile((x, y), tile_size, cell)
+                    self.tiles.add(tile_sprite)
 
     def scroll_x(self):
         player = self.player.sprite
