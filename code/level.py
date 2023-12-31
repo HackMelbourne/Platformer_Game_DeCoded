@@ -49,8 +49,10 @@ class Level:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
                     player.rect.left = sprite.rect.right
+                    self.world_shift = 0
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
+                    self.world_shift = 0
 
     def vertical_movement_collision(self):
         player = self.player.sprite
@@ -73,7 +75,7 @@ class Level:
 
         # Player
         self.player.update()
+        self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
-        self.scroll_x()
