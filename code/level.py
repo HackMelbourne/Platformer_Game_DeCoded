@@ -19,12 +19,12 @@ class Level:
                 x = col_index * tile_size
                 y = row_index * tile_size
 
-                if cell == 'X':
-                    tile = Tile((x, y), tile_size)
-                    self.tiles.add(tile)
                 if cell == 'P':
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
+                elif cell != ' ':
+                    tile_sprite = Tile((x, y), tile_size, cell)
+                    self.tiles.add(tile_sprite)
 
     def scroll_x(self):
         player = self.player.sprite
@@ -49,8 +49,10 @@ class Level:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
                     player.rect.left = sprite.rect.right
+                    self.world_shift = 0
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
+                    self.world_shift = 0
 
     def vertical_movement_collision(self):
         player = self.player.sprite
@@ -61,6 +63,7 @@ class Level:
                 if player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0 # this statement makes sure apply gravity doesn't make player.direction.y too large
+                    player.on_ground = True
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall
@@ -72,7 +75,7 @@ class Level:
 
         # Player
         self.player.update()
+        self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
-        self.scroll_x()

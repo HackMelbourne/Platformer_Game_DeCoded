@@ -9,13 +9,17 @@ screen = pygame.display.set_mode((screen_width,screen_height))
 clock = pygame.time.Clock()
 level = Level(level_map, screen)
 
+pygame.display.set_caption("2D Platformer Game")
+
 while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
 			sys.exit()
-	
-	screen.fill('black')
+
+	background = pygame.image.load('../graphics/bg.png').convert()
+	background = pygame.transform.smoothscale(background, screen.get_size())
+	screen.blit(background, (0, 0))
 	level.run()
 
 	pygame.display.update()
