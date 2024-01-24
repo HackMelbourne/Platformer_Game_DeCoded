@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.is_attacking = False
 
     def import_character_assets(self,size:(int,int)):
-        character_path = '../graphics/freeknight/'
+        character_path = ''
         self.animations = {'idle': [], 'run': [], 'jump': [], 'attack': [], 'dead': [], 'jumpAttack': [], 'walk': []}
 
         for animation in self.animations.keys():

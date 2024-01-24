@@ -2,6 +2,7 @@ import pygame
 from tiles import Tile
 from settings import tile_size, screen_width
 from player import Player
+from enemies import Enemy
 
 class Level:
     def __init__(self, level_data, surface):
@@ -13,6 +14,7 @@ class Level:
     def setup_level(self, layout):
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
+        self.enemies = pygame.sprite.Group()
 
         for row_index, row in enumerate(layout):
             for col_index, cell in enumerate(row):
@@ -22,6 +24,9 @@ class Level:
                 if cell == 'P':
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
+                elif cell == 'E':
+                    enemy = Enemy((x,y))
+                    self.enemies.add(enemy)
                 elif cell != ' ':
                     tile_sprite = Tile((x, y), tile_size, cell)
                     self.tiles.add(tile_sprite)
@@ -41,9 +46,49 @@ class Level:
             self.world_shift = 0
             player.speed = 8
 
+    def horizontal_enemy_collision(self):
+        for enemy in self.enemies.sprites():
+            enemy.move()
+            for  sprite in self.tiles.sprites():
+                if enemy.rect.colliderect(sprite.rect):
+                    if enemy.direction.x < 0:
+                        enemy.rect.left = sprite.rect.right
+                        enemy.direction.x = 1
+                        self.on_left = True
+                    elif enemy.direction.x > 0:
+                        enemy.rect.right = sprite.rect.left
+                        enemy.direction.x = -1
+                        self.on_right = True
+    
+    def vertical_enemy_collision(self):
+        for enemy in self.enemies.sprites():
+            temp_rect = enemy.rect.copy()
+            temp_rect.y += 1
+            flag = False
+            for sprite in self.tiles.sprites():
+                if sprite.rect.colliderect(temp_rect):
+                    enemy.on_ground = True
+                    flag = True
+            if not flag:
+                if enemy.direction.x < 0:
+                    enemy.direction.x = 1
+                elif enemy.direction.x > 0:
+                    enemy.direction.x = -1
+
+
     def horizontal_movement_collision(self):
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speed
+
+
+        #setup horizontal player knock back colision.
+        for enemy in self.enemies.sprites():
+            if enemy.rect.colliderect(player.rect):
+                if enemy.direction.x < 0:
+                    player.direction.x = -5
+                elif enemy.direction.x > 0:
+                    player.direction.x = 5
+                player.jump()
 
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
@@ -53,10 +98,24 @@ class Level:
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
                     self.world_shift = 0
-
+    
+    def knock_back(self):
+        pass
+        
     def vertical_movement_collision(self):
         player = self.player.sprite
         player.apply_gravity()
+
+        for enemy in self.enemies.sprites():
+            if enemy.rect.colliderect(player.rect):
+                if enemy.direction.x < 0:
+                    player.direction.x = -5
+                    player.direction.y = 0
+                elif enemy.direction.x > 0:
+                    player.direction.x = 5
+                    player.direction.y = 0
+                player.rect.x += player.direction.x * (player.speed//4)
+                player.jump()
 
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
@@ -67,6 +126,11 @@ class Level:
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall
+
+        # if player.on_ground and player.direction.y < 0 or player.direction.y > 1:
+        #     player.on_ground = False
+        # if player.on_ceiling and player.direction.y > 0:
+        #     player.on_ceiling = False
 
     def run(self):
         # Level tiles
@@ -79,3 +143,9 @@ class Level:
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
+
+        # Enemy
+        self.vertical_enemy_collision()
+        self.horizontal_enemy_collision()
+        self.enemies.update(self.world_shift)
+        self.enemies.draw(self.display_surface)
