@@ -79,16 +79,33 @@ class Level:
     def horizontal_movement_collision(self):
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speed
-
-
+        #setup invisible frames
+        for enemy in self.enemies.sprites():
+            if enemy.rect.colliderect(player.rect) and not player.is_invincible:
+                player.is_attacked()
+                if enemy.direction.x < 0:
+                    enemy.direction.x = 1
+                    self.on_left = True
+                elif enemy.direction.x > 0:
+                    enemy.direction.x = -1
+                    self.on_right = True
+            
+                
         #setup horizontal player knock back colision.
         for enemy in self.enemies.sprites():
-            if enemy.rect.colliderect(player.rect):
-                if enemy.direction.x < 0:
-                    player.direction.x = -5
-                elif enemy.direction.x > 0:
-                    player.direction.x = 5
-                player.jump()
+            if enemy.rect.colliderect(player.rect) and not player.is_invincible:
+                for sprite in self.tiles.sprites():
+                    if not abs(sprite.rect.x - enemy.rect.x) <= 64:
+                        continue # checking only nearby tiles
+                    if enemy.direction.x < 0 and player.rect.left - 5 <= sprite.rect.right and sprite.rect.right <= enemy.rect.left:
+                        player.rect.left = sprite.rect.right
+                    elif enemy.direction.x > 0 and player.rect.right + 5 >= sprite.rect.left and sprite.rect.left >= enemy.rect.right:
+                        player.rect.right = sprite.rect.left
+                    elif enemy.direction.x < 0:
+                        player.direction.x = -5
+                    elif enemy.direction.x > 0:
+                        player.direction.x = 5
+                    player.jump()
 
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
@@ -106,8 +123,9 @@ class Level:
         player = self.player.sprite
         player.apply_gravity()
 
+        # vertical kockback
         for enemy in self.enemies.sprites():
-            if enemy.rect.colliderect(player.rect):
+            if enemy.rect.colliderect(player.rect) and not player.is_invincible:
                 if enemy.direction.x < 0:
                     player.direction.x = -5
                     player.direction.y = 0

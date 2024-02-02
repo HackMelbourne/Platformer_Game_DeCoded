@@ -17,7 +17,7 @@ while True:
 			pygame.quit()
 			sys.exit()
 
-	background = pygame.image.load('').convert()
+	background = pygame.image.load(base + 'bg.png').convert()
 	background = pygame.transform.smoothscale(background, screen.get_size())
 	screen.blit(background, (0, 0))
 	level.run()

@@ -30,13 +30,13 @@ level_map = [
 ]
 
 tile_types = {
-    'T': '',
-    'X': '',
-    'C': '',
-    'M': '',
+    'T': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\grassMid.png',
+    'X': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\grassCenter.png',
+    'C': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\castleMid.png',
+    'M': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\castleCenter.png',
 }
 
-base = ''
+base = 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\'
 tile_size = 64
 screen_width = 1200
 screen_height = len(level_map) * tile_size

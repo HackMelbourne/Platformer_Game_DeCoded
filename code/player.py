@@ -1,4 +1,5 @@
 import pygame
+from settings import base
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -30,9 +31,13 @@ class Player(pygame.sprite.Sprite):
         self.jump_key_pressed = False  # Track if jump key is still pressed
 
         self.is_attacking = False
+        self.is_invincible = False
+        self.is_invincible_timer = 0
+        self.attacked_time = 0
+
 
     def import_character_assets(self,size:(int,int)):
-        character_path = ''
+        character_path = base + 'freeknight\\'
         self.animations = {'idle': [], 'run': [], 'jump': [], 'attack': [], 'dead': [], 'jumpAttack': [], 'walk': []}
 
         for animation in self.animations.keys():
@@ -58,6 +63,9 @@ class Player(pygame.sprite.Sprite):
 
         # Flip the image based on the direction
         image = animation[int(self.frame_index)%len(animation)]
+        if self.is_invincible:
+            if (int(self.frame_index)%len(animation)) % 2 == 0:
+                image = pygame.mask.from_surface(image).to_surface()
         if self.facing_right:
             self.image = image
         else:
@@ -83,6 +91,19 @@ class Player(pygame.sprite.Sprite):
                 self.state = 'idle'
             else:
                 self.state = 'jump'
+
+        self.is_invincible_timer = pygame.time.get_ticks()
+        if self.is_invincible and abs(self.attacked_time - self.is_invincible_timer) > 3000:
+            self.is_invincible = False
+    
+    def is_attacked(self):
+        attacked_time = pygame.time.get_ticks()
+        if self.is_invincible:
+            if abs(self.attacked_time - self.is_invincible_timer) > 3000:
+                self.is_invincible = False
+        else:
+            self.attacked_time = attacked_time
+            self.is_invincible = True 
 
     def get_input(self):
         if self.is_attacking:
