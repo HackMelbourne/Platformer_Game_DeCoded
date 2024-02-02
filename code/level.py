@@ -46,20 +46,60 @@ class Level:
             self.world_shift = 0
             player.speed = 8
 
+
+    # def horizontal_enemy_collision(self):
+    #     for enemy in self.enemies.sprites():
+    #         enemy.move()
+    #         colidables = self.tiles.sprites()
+    #         for  sprite in colidables:
+    #             if enemy.rect.colliderect(sprite.rect):
+    #                 if enemy.direction.x < 0:
+    #                     enemy.rect.left = sprite.rect.right
+    #                     enemy.direction.x = 1
+    #                     self.on_left = True
+    #                 elif enemy.direction.x > 0:
+    #                     enemy.rect.right = sprite.rect.left
+    #                     enemy.direction.x = -1
+    #                     self.on_right = True
+
     def horizontal_enemy_collision(self):
         for enemy in self.enemies.sprites():
-            enemy.move()
-            for  sprite in self.tiles.sprites():
+            enemy.move()  # Move the enemy horizontally
+            # Check for collisions with tiles after adjusting direction
+
+            for sprite in self.tiles.sprites():
                 if enemy.rect.colliderect(sprite.rect):
+                    # Adjust position if there's a collision
                     if enemy.direction.x < 0:
                         enemy.rect.left = sprite.rect.right
-                        enemy.direction.x = 1
-                        self.on_left = True
+                        # enemy.direction.x = 1
+                        enemy.flip()
                     elif enemy.direction.x > 0:
                         enemy.rect.right = sprite.rect.left
-                        enemy.direction.x = -1
-                        self.on_right = True
-    
+                        # enemy.direction.x = -1
+                        enemy.flip()
+                else:
+                    self.is_tile_below(enemy)
+            # Check if there's a tile below the enemy
+
+    def is_tile_below(self, enemy):
+        # Calculate the position of the tile below the enemy
+
+        if enemy.facing == 'left':
+            tile_below_x = enemy.rect.x
+        elif enemy.facing == 'right':
+            tile_below_x = enemy.rect.x + enemy.rect.width
+
+        tile_below_y = enemy.rect.y + tile_size
+
+        # Iterate through all tiles to check for collision with the tile below
+        for tile in self.tiles.sprites():
+            if tile.rect.collidepoint(tile_below_x, tile_below_y):
+                break  # There is a tile below, no need to reverse direction
+        else:
+            # If no tile below, flip the enemy
+                enemy.flip()
+
     def vertical_enemy_collision(self):
         for enemy in self.enemies.sprites():
             temp_rect = enemy.rect.copy()
