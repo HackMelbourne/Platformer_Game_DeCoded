@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.state = 'idle'
         self.facing_right = True
         self.frame_index = 0
-        self.animation_speed = 0.15
+        self.animation_speed = 0.30
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
 
@@ -44,7 +44,7 @@ class Player(pygame.sprite.Sprite):
             full_path = character_path + animation.capitalize()
             self.animations[animation] = [
                 pygame.transform.smoothscale(
-                    pygame.image.load(f'{full_path} ({i}).png'),
+                    pygame.image.load(f'{full_path} ({i}).png').convert_alpha(),
                     size)
                 for i in range(1, 11)]
 
@@ -66,6 +66,8 @@ class Player(pygame.sprite.Sprite):
         if self.is_invincible:
             if (int(self.frame_index)%len(animation)) % 2 == 0:
                 image = pygame.mask.from_surface(image).to_surface()
+                image.set_colorkey((0,0,0))
+                image.set_alpha(0)
         if self.facing_right:
             self.image = image
         else:
@@ -98,12 +100,13 @@ class Player(pygame.sprite.Sprite):
     
     def is_attacked(self):
         attacked_time = pygame.time.get_ticks()
-        if self.is_invincible:
+        if self.is_invincible and not self.on_ground:
             if abs(self.attacked_time - self.is_invincible_timer) > 3000:
                 self.is_invincible = False
         else:
             self.attacked_time = attacked_time
-            self.is_invincible = True 
+            self.is_invincible = True
+            #self.jump() 
 
     def get_input(self):
         if self.is_attacking:
