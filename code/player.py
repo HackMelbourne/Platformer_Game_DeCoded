@@ -34,6 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.is_invincible = False
         self.is_invincible_timer = 0
         self.attacked_time = 0
+        self.attacked_dir = 0
+        self.attacked_c = 0
 
 
     def import_character_assets(self,size:(int,int)):
@@ -67,13 +69,16 @@ class Player(pygame.sprite.Sprite):
             if (int(self.frame_index)%len(animation)) % 2 == 0:
                 image = pygame.mask.from_surface(image).to_surface()
                 image.set_colorkey((0,0,0))
-                image.set_alpha(0)
+                image.set_alpha(20)
         if self.facing_right:
             self.image = image
         else:
             self.image = pygame.transform.flip(image, True, False)
 
     def update_state(self):
+        if self.attacked_c and self.on_ground:
+            self.attacked_c = 0
+            # checking if the player has already been knocked back then no need to knock back further. 
         if self.is_attacking:
             return
         elif self.direction.x > 0:
@@ -97,15 +102,22 @@ class Player(pygame.sprite.Sprite):
         self.is_invincible_timer = pygame.time.get_ticks()
         if self.is_invincible and abs(self.attacked_time - self.is_invincible_timer) > 3000:
             self.is_invincible = False
-    
-    def is_attacked(self):
+            #self.on_ground = True
+        
+        
+    def is_attacked(self,dir=0):
         attacked_time = pygame.time.get_ticks()
+        # if the player has been knocked back or timer is up, make the player un-invincible
         if self.is_invincible and not self.on_ground:
             if abs(self.attacked_time - self.is_invincible_timer) > 3000:
                 self.is_invincible = False
+                self.attacked_c = 0
+                self.attacked_dir = 0
         else:
             self.attacked_time = attacked_time
             self.is_invincible = True
+            self.attacked_dir = dir
+            self.attacked_c = 1
             #self.jump() 
 
     def get_input(self):
@@ -121,6 +133,10 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
         else:
             self.direction.x = 0
+        
+        # force the player to move in the dirction of the kock back.
+        if self.is_invincible and not self.on_ground and self.attacked_c:
+            self.direction.x = self.attacked_dir
 
         if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
             if not self.jump_key_pressed:
@@ -148,11 +164,12 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.jump_count = 0
 
-    def jump(self):
+    def jump(self,wind=0):
         if self.jump_count < self.max_jumps:
             self.direction.y = self.jump_speed
             self.on_ground = False
             self.jump_count += 1
+            #self.rect.x += wind
 
 
     def update(self):
