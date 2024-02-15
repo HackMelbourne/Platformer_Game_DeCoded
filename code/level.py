@@ -47,21 +47,6 @@ class Level:
             player.speed = 8
 
 
-    # def horizontal_enemy_collision(self):
-    #     for enemy in self.enemies.sprites():
-    #         enemy.move()
-    #         colidables = self.tiles.sprites()
-    #         for  sprite in colidables:
-    #             if enemy.rect.colliderect(sprite.rect):
-    #                 if enemy.direction.x < 0:
-    #                     enemy.rect.left = sprite.rect.right
-    #                     enemy.direction.x = 1
-    #                     self.on_left = True
-    #                 elif enemy.direction.x > 0:
-    #                     enemy.rect.right = sprite.rect.left
-    #                     enemy.direction.x = -1
-    #                     self.on_right = True
-
     def horizontal_enemy_collision(self):
         for enemy in self.enemies.sprites():
             enemy.move()  # Move the enemy horizontally
@@ -175,9 +160,17 @@ class Level:
                     if player.rect.left <= enemy.rect.left:
                         #player.direction.y = -15
                         player.is_attacked(-1)
+                        if enemy.direction.x < 0:
+                            enemy.direction.x = 1
+                        elif enemy.direction.x > 0:
+                            enemy.direction.x = -1
                     elif player.rect.left >= enemy.rect.left:
                         #player.direction.y = -15
                         player.is_attacked(1)
+                        if enemy.direction.x < 0:
+                            enemy.direction.x = 1
+                        elif enemy.direction.x > 0:
+                            enemy.direction.x = -1
                     player.jump()
                     player.on_ground = False                    
                 if sprite.rect.colliderect(player.rect):
