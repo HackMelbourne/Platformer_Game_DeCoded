@@ -17,10 +17,10 @@ while True:
 			pygame.quit()
 			sys.exit()
 
-	background = pygame.image.load(base + 'bg.png').convert()
+	background = pygame.image.load(path.join(base_path, 'bg.png')).convert()
 	background = pygame.transform.smoothscale(background, screen.get_size())
 	screen.blit(background, (0, 0))
 	level.run()
 
 	pygame.display.update()
-	clock.tick(60)
+	clock.tick(clock_tick)

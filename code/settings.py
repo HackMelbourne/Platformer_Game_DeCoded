@@ -1,4 +1,4 @@
-from os import walk
+from os import walk, path
 import pygame
 
 normal_level_map = [
@@ -29,23 +29,25 @@ level_map = [
 'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
 ]
 
+base_path = path.join(path.dirname(__file__), '..', 'graphics')
+
 tile_types = {
-    'T': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\grassMid.png',
-    'X': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\grassCenter.png',
-    'C': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\castleMid.png',
-    'M': 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\Tiles\\castleCenter.png',
+    'T': path.join(base_path, 'Tiles', 'grassMid.png'),
+    'X': path.join(base_path, 'Tiles', 'grassCenter.png'),
+    'C': path.join(base_path, 'Tiles', 'castleMid.png'),
+    'M': path.join(base_path, 'Tiles', 'castleCenter.png'),
 }
 
-base = 'C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\'
 tile_size = 64
+clock_tick = 1000
 screen_width = 1200
 screen_height = len(level_map) * tile_size
 
-def import_folder(path):
+def import_folder(path_to_folder):
     surf_lst = []
-    for _,_,img_files in walk(path):
+    for _,_,img_files in walk(path_to_folder):
         for img in img_files:
-            full_path = path + '\\' + img
+            full_path = path.join(path_to_folder, img)
             img_surf = pygame.image.load(full_path).convert_alpha()
             surf_lst.append(img_surf)
     return surf_lst
