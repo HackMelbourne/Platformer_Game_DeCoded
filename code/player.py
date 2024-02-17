@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
 
         # Flip the image based on the direction
         image = animation[int(self.frame_index)%len(animation)]
-        if self.is_invincible:
+        if self.is_invincible: # if player is invincible then make every alternate frame blank
             if (int(self.frame_index)%len(animation)) % 2 == 0:
                 image = pygame.mask.from_surface(image).to_surface()
                 image.set_colorkey((0,0,0))

@@ -157,20 +157,27 @@ class Level:
         for enemy in  self.enemies.sprites():
             for sprite in self.tiles.sprites():
                 if enemy.rect.colliderect(player.rect) and not player.is_invincible:
-                    if player.rect.left <= enemy.rect.left:
+                    if player.rect.left < enemy.rect.left:
                         #player.direction.y = -15
                         player.is_attacked(-1)
                         if enemy.direction.x < 0:
                             enemy.direction.x = 1
                         elif enemy.direction.x > 0:
                             enemy.direction.x = -1
-                    elif player.rect.left >= enemy.rect.left:
+                    elif player.rect.left > enemy.rect.left:
                         #player.direction.y = -15
                         player.is_attacked(1)
                         if enemy.direction.x < 0:
                             enemy.direction.x = 1
                         elif enemy.direction.x > 0:
                             enemy.direction.x = -1
+                    else:
+                        player.is_attacked(player.direction.x)
+                        if enemy.direction.x < 0:
+                            enemy.direction.x = 1
+                        elif enemy.direction.x > 0:
+                            enemy.direction.x = -1
+
                     player.jump()
                     player.on_ground = False                    
                 if sprite.rect.colliderect(player.rect):
