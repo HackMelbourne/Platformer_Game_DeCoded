@@ -1,15 +1,13 @@
-from typing import Any
 import pygame
-from settings import base, import_folder
+from os import path
+from settings import base_path, import_folder
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,pos) -> None:
         super().__init__()
-        self.import_character_assets()
-        print(self.animations)
+        self.import_character_assets((32,64))
         self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations['idle'][self.frame_index], (32,64)).convert_alpha()
-        #self.image = pygame.Surface((32,64)) #pygame.transform.scale_by(self.animations['idle'][self.frame_index], 2.5)
+        self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
         self.direction = pygame.Vector2(1,0)
         self.speed = 1
@@ -20,18 +18,27 @@ class Enemy(pygame.sprite.Sprite):
         self.on_left = False
         self.on_right = False
         self.facing = 'right'
-    
-    def import_character_assets(self):
-        full_path = base + 'enemy\\'
-        self.animations = {'idle' : [], 'run' : []}
+
+    def import_character_assets(self,size:(int,int)):
+        character_path = path.join(base_path, 'enemy')
+        animation_file_counts = {
+            'idle': 16,
+            'run': 8,
+        }
+        self.animations = {'idle': [], 'run': []}
+
         for animation in self.animations.keys():
-            self.animations[animation] = import_folder(full_path + animation)
+            full_path = path.join(character_path, animation)
+            self.animations[animation] = [
+                pygame.transform.smoothscale(
+                    pygame.image.load(f'{path.join(full_path,str(i))}.png').convert_alpha(),
+                    size)
+                for i in range(animation_file_counts[animation])]
 
     def animate(self):
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
-        if self.frame_index >= len(animation):
-            self.frame_index = 0
+        self.frame_index %= len(animation)
         img = pygame.transform.scale(animation[int(self.frame_index)], (32, 64)).convert_alpha()
         if self.direction.x < 0:
             self.image = pygame.transform.flip(img, True, False).convert_alpha()
@@ -52,10 +59,10 @@ class Enemy(pygame.sprite.Sprite):
             self.status = 'idle'
         else:
             self.status = 'run'
-    
+
     def move(self):
         self.rect.x += self.direction.x * self.speed
-        
+
     def update(self, shift) -> None:
         self.get_status()
         self.rect.x += shift
