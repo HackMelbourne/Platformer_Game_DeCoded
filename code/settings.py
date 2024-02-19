@@ -1,11 +1,14 @@
+from os import walk, path
+import pygame
+
 normal_level_map = [
 '                                                        ',
 '                                                        ',
 '                                                        ',
 '       TTT        TTT TT           TTT        TTT TT    ',
 '    P           T                         T             ',
-'              TT       TTTT               XT       TTTT ',
-'            TT  TT         T            TT  TT         T',
+'             ETT       TTTT               XT       TTTT ',
+'            TT  TT         T           ETT  TT         T',
 '          TTXX      TTT    X          TTXX      TTT    X',
 '          XXXX        XT   X          XXXX        XT   X',
 '    TTTT  XXXXTT  TT  XXTTTX    TTTT  XXXXTT  TT  XXTTTX',
@@ -15,24 +18,50 @@ normal_level_map = [
 level_map = [
 '                                                        ',
 '                                                        ',
-'                                                        ',
+'                                    E                   ',
 '       CCC        CCC CC           CCC        CCC CC    ',
-'    P           C                         C             ',
-'              CC       CCCC               MC       CCCC ',
-'            CC  CC         C            CC  CC         C',
-'          CCMM      CCC    M          CCMM      CCC    M',
-'          MMMM        MC   M          MMMM        MC   M',
-'    CCCC  MMMMCC  CC  MMCCCM    CCCC  MMMMCC  CC  MMCCCM',
+'    P           C       E                 C           J ',
+'              CC       CCCC              EMC       CCCC ',
+'           ECC  CC         C           ECC  CC         C',
+'          CCMM      CCC    M          CCMM      CCCE   M',
+'          MMMM    E   MC   M          MMMM        MC   M',
+'    CCCC  MMMMCC  CC  MMCCCM    CCCC EMMMMCC  CC  MMCCCM',
 'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
 ]
 
+level_map2 = [
+'                                                        ',
+'                                                        ',
+'                                    E                   ',
+'       CCC        CCC CC           CCC        CCC CC    ',
+'    P           C       E                 C             ',
+'              CC       CCCC              EMC       CCCC ',
+'           ECC  CC         C           ECC  CC         C',
+'          CCMM      CCC    M          CCMM      CCCE   M',
+'          MMMM    E   MC   M          MMMM        MC   M',
+'    CCCC  MMMMCC  CC  MMCCCM    CCCC EMMMMCC  CC  MMCCCM',
+'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
+]
+
+base_path = path.join(path.dirname(__file__), '..', 'graphics')
+
 tile_types = {
-    'T': '../graphics/Tiles/grassMid.png',
-    'X': '../graphics/Tiles/grassCenter.png',
-    'C': '../graphics/Tiles/castleMid.png',
-    'M': '../graphics/Tiles/castleCenter.png',
+    'T': path.join(base_path, 'Tiles', 'grassMid.png'),
+    'X': path.join(base_path, 'Tiles', 'grassCenter.png'),
+    'C': path.join(base_path, 'Tiles', 'castleMid.png'),
+    'M': path.join(base_path, 'Tiles', 'castleCenter.png'),
 }
 
 tile_size = 64
+clock_tick = 1000
 screen_width = 1200
 screen_height = len(level_map) * tile_size
+
+def import_folder(path_to_folder):
+    surf_lst = []
+    for _,_,img_files in walk(path_to_folder):
+        for img in img_files:
+            full_path = path.join(path_to_folder, img)
+            img_surf = pygame.image.load(full_path).convert_alpha()
+            surf_lst.append(img_surf)
+    return surf_lst
