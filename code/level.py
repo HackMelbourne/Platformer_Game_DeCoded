@@ -1,8 +1,9 @@
 import pygame
 from tiles import Tile
-from settings import tile_size, screen_width
+from settings import tile_size, screen_width, level_map2
 from player import Player
 from enemies import Enemy
+from Door import Door
 
 class Level:
     def __init__(self, level_data, surface):
@@ -15,6 +16,7 @@ class Level:
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         self.enemies = pygame.sprite.Group()
+        self.doors = pygame.sprite.GroupSingle()
 
         for row_index, row in enumerate(layout):
             for col_index, cell in enumerate(row):
@@ -27,9 +29,13 @@ class Level:
                 elif cell == 'E':
                     enemy = Enemy((x,y))
                     self.enemies.add(enemy)
+                elif cell == 'J':
+                    door_sprite = Door((x, y))
+                    self.doors.add(door_sprite)
                 elif cell != ' ':
                     tile_sprite = Tile((x, y), tile_size, cell)
                     self.tiles.add(tile_sprite)
+
 
     def scroll_x(self):
         player = self.player.sprite
@@ -44,7 +50,7 @@ class Level:
             player.speed = 0
         else:
             self.world_shift = 0
-            player.speed = 8
+            player.speed = 4
 
 
     def horizontal_enemy_collision(self):
@@ -85,6 +91,26 @@ class Level:
             # If no tile below, flip the enemy
                 enemy.flip()
 
+    def check_door_collision(self):
+        player = self.player.sprite
+        doors = self.doors.sprites()
+
+        for door in doors:
+            if pygame.sprite.collide_rect(player, door):
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    self.change_level()  # Change the level when the player interacts with the door
+                    
+    def change_level(self):
+        # Clear all sprite groups
+        self.tiles.empty()
+        self.player.empty()
+        self.enemies.empty()
+        self.doors.empty()
+
+        # Load the new level data
+        self.setup_level(level_map2)
+    
     def vertical_enemy_collision(self):
         for enemy in self.enemies.sprites():
             temp_rect = enemy.rect.copy()
@@ -140,7 +166,7 @@ class Level:
                     player.jump()
                     player.on_ground = False
                 # check collision with the wall 
-                if sprite.rect.colliderect(player.rect):
+                if sprite.rect.colliderect(player.rect) and sprite != self.doors.sprite:
                     if player.direction.x < 0:
                         player.rect.left = sprite.rect.right
                         self.world_shift = 0
@@ -197,12 +223,18 @@ class Level:
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
 
+        # Doors
+        self.doors.draw(self.display_surface)
+        self.doors.update(self.world_shift)
+        
         # Player
         self.player.update()
         self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
+        self.check_door_collision()  # Check for door collisions
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
+        self.player.sprite.display_health(self.display_surface)
 
         # Enemy
         self.vertical_enemy_collision()
