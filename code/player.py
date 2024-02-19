@@ -145,6 +145,7 @@ class Player(pygame.sprite.Sprite):
             self.is_invincible = True
             self.attacked_dir = dir
             self.attacked_c = 1
+            self.current_health -= 1
             #self.jump()
 
     def get_input(self):

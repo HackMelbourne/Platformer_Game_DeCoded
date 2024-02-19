@@ -12,7 +12,7 @@ class Level:
         self.setup_level(level_data)
         self.world_shift = 0
 
-        def setup_level(self, layout):
+    def setup_level(self, layout):
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         self.enemies = pygame.sprite.Group()
@@ -50,7 +50,7 @@ class Level:
             player.speed = 0
         else:
             self.world_shift = 0
-            player.speed = 8
+            player.speed = 4
 
 
     def horizontal_enemy_collision(self):
