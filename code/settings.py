@@ -20,6 +20,20 @@ level_map = [
 '                                                        ',
 '                                    E                   ',
 '       CCC        CCC CC           CCC        CCC CC    ',
+'    P           C       E                 C           J ',
+'              CC       CCCC              EMC       CCCC ',
+'           ECC  CC         C           ECC  CC         C',
+'          CCMM      CCC    M          CCMM      CCCE   M',
+'          MMMM    E   MC   M          MMMM        MC   M',
+'    CCCC  MMMMCC  CC  MMCCCM    CCCC EMMMMCC  CC  MMCCCM',
+'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
+]
+
+level_map2 = [
+'                                                        ',
+'                                                        ',
+'                                    E                   ',
+'       CCC        CCC CC           CCC        CCC CC    ',
 '    P           C       E                 C             ',
 '              CC       CCCC              EMC       CCCC ',
 '           ECC  CC         C           ECC  CC         C',
