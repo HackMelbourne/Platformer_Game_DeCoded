@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
     def import_character_assets(self,size:(int,int)):
         character_path = path.join(base_path, 'enemy')
         animation_file_counts = {
-            'idle': 16,
+            'idle': 6,
             'run': 8,
         }
         self.animations = {'idle': [], 'run': []}
