@@ -47,9 +47,9 @@ class Player(pygame.sprite.Sprite):
         character_path = path.join(base_path, 'freeknight')
         self.animations = {'idle': [], 'run': [], 'jump': [], 'attack': [], 'dead': [], 'jumpAttack': [], 'walk': []}
         self.health_icons = {
-            'full': pygame.transform.smoothscale(pygame.image.load('../graphics/Tiles/dirt.png'), (size[0]//2, size[1]//2)),
-            'half': pygame.transform.smoothscale(pygame.image.load('../graphics/Tiles/dirtHalf.png'), (size[0]//2, size[1]//2)),
-            'noHealth': pygame.transform.smoothscale(pygame.image.load('../graphics/Tiles/boxAlt.png'), (size[0]//2, size[1]//2))
+            'full': pygame.transform.smoothscale(pygame.image.load(path.join(base_path, 'Tiles', 'dirt.png')), (size[0]//2, size[1]//2)),
+            'half': pygame.transform.smoothscale(pygame.image.load(path.join(base_path, 'Tiles', 'dirtHalf.png')), (size[0]//2, size[1]//2)),
+            'noHealth': pygame.transform.smoothscale(pygame.image.load(path.join(base_path, 'Tiles', 'boxAlt.png')), (size[0]//2, size[1]//2))
         }
 
         for animation in self.animations.keys():
