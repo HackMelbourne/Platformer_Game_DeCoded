@@ -43,7 +43,8 @@ level_map2 = [
 'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
 ]
 
-base_path = path.join(path.dirname(__file__), '..', 'graphics')
+#base_path = path.join(path.dirname(__file__), '..', 'graphics')
+base_path = "C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\"
 
 tile_types = {
     'T': path.join(base_path, 'Tiles', 'grassMid.png'),
