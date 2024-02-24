@@ -134,7 +134,7 @@ class Level:
         #merging knock back, wall collision and invisble frames
         for enemy in self.enemies.sprites():
             for sprite in self.tiles.sprites():
-                if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state != 'attack':
+                if enemy.rect.colliderect(player.rect) and not player.is_invincible: #and player.state2 != 'attack':
 
                     
                     # check if player is on the left of enemy or right and knock in that direction
@@ -166,8 +166,8 @@ class Level:
                     player.jump()
                     player.on_ground = False
                 # check collision with the wall 
-                if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state == 'attack' and player.direction.x != enemy.direction.x:
-                    enemy.kill()
+                # if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state2 == 'attack' and player.direction.x != enemy.direction.x:
+                #     enemy.kill()
                 if sprite.rect.colliderect(player.rect) and sprite != self.doors.sprite:
                     if player.direction.x < 0:
                         player.rect.left = sprite.rect.right
@@ -184,7 +184,7 @@ class Level:
         #merging vertical knock back, wall collision and invislbe frames
         for enemy in  self.enemies.sprites():
             for sprite in self.tiles.sprites():
-                if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state != 'jumpAttack':
+                if enemy.rect.colliderect(player.rect) and not player.is_invincible: #and player.state2 != 'jumpAttack':
                     if player.rect.left < enemy.rect.left:
                         #player.direction.y = -15
                         player.is_attacked(-1)
@@ -208,8 +208,8 @@ class Level:
 
                     player.jump()
                     player.on_ground = False    
-                if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state == 'jumpAttack':
-                    enemy.kill()       
+                # if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state2 == 'jumpAttack':
+                #     enemy.kill()       
                 if sprite.rect.colliderect(player.rect):
                     if player.direction.y > 0:
                         player.rect.bottom = sprite.rect.top
@@ -247,6 +247,6 @@ class Level:
         self.enemies.draw(self.display_surface)
 
     def check_player(self):
-        if self.player.sprite.current_health == 0 or (self.player.sprite.rect.left < 0 or self.player.sprite.rect.right > screen_width) or (self.player.sprite.rect.bottom > screen_height or self.player.sprite.rect.top < 0):
+        if self.player.sprite.current_health == 0 or (self.player.sprite.rect.left < 0 or self.player.sprite.rect.right > screen_width) or (self.player.sprite.rect.bottom > screen_height or self.player.sprite.rect.bottom < -64):
             return 0
         return 1
