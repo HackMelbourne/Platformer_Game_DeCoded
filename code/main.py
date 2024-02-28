@@ -36,7 +36,7 @@ class Main:
 			if not self.level.check_player():
 				return 1
 				#self.main_menu = True
-				pass
+				
 			if self.main_menu == True:
 				self.start_button.draw(self.screen)
 				self.exit_button.draw(self.screen)
@@ -56,4 +56,4 @@ if __name__ == '__main__':
 	main = Main()
 	while main.run() != 2:
 		main = Main()
-		main.run
+		main.run()

@@ -43,8 +43,8 @@ level_map2 = [
 'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
 ]
 
-#base_path = path.join(path.dirname(__file__), '..', 'graphics')
-base_path = "C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\"
+base_path = path.join(path.dirname(__file__), '..', 'graphics')
+#base_path = "C:\\Users\\Dhruv\\Desktop\\workshop\\Platformer_Game_DeCoded\\graphics\\"
 
 tile_types = {
     'T': path.join(base_path, 'Tiles', 'grassMid.png'),
@@ -61,7 +61,7 @@ screen_height = len(level_map) * tile_size
 def import_folder(path_to_folder):
     surf_lst = []
     for _,_,img_files in walk(path_to_folder):
-        for img in img_files:
+        for img in img_files: 
             full_path = path.join(path_to_folder, img)
             img_surf = pygame.image.load(full_path).convert_alpha()
             surf_lst.append(img_surf)
