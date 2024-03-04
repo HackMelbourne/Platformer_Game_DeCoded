@@ -15,29 +15,43 @@ class Main:
 		self.main_menu = True
 		self.start_img = pygame.image.load(base_path + '\\buttons\\start-1.png').convert_alpha()
 		self.exit_img= pygame.image.load(base_path + '\\buttons\\exit-1.png').convert_alpha()
-		self.start_button = Button(screen_width//2 - self.start_img.get_width()//2, 200, self.start_img)
-		self.exit_button = Button(screen_width//2 - self.exit_img.get_width()//2, 400, self.exit_img)
+		self.menu_img = pygame.image.load(path.join(base_path, 'title.png')).convert_alpha()
+
+		self.start_button = Button(screen_width//2 - self.start_img.get_width()//2, 500, self.start_img)
+		self.exit_button = Button(screen_width//2 - self.exit_img.get_width()//2, 600, self.exit_img)
 		pygame.display.set_caption("2D Platformer Game")
 
-	def run(self):
 
+	def run(self):
 		while True:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					pygame.quit()
 					sys.exit()
 
-			background = pygame.image.load(path.join(base_path, 'bg.png')).convert()
-			background = pygame.transform.smoothscale(background, self.screen.get_size())
-			self.screen.blit(background, (0, 0))
-	
+			# Check if the game is in the main menu state
+			if self.main_menu:
+				# Load the main menu background image
+				background_img = pygame.image.load(path.join(base_path, 'sky1.png')).convert()
+			else:
+				# Load the level background image
+				background_img = pygame.image.load(path.join(base_path, 'bg.png')).convert()
+
+			# Resize the background image to match the screen size
+			background_img = pygame.transform.smoothscale(background_img, self.screen.get_size())
+
+			# Blit the background image onto the screen
+			self.screen.blit(background_img, (0, 0))
+
+			# Handle game logic based on the current state
 			if not self.main_menu:
 				self.level.run()
 			if not self.level.check_player():
 				return 1
-				#self.main_menu = True
-				
+
 			if self.main_menu == True:
+				# Draw the main menu buttons
+				self.screen.blit(self.menu_img, (screen_width//2 - self.menu_img.get_width()//2, 50))
 				self.start_button.draw(self.screen)
 				self.exit_button.draw(self.screen)
 
@@ -45,8 +59,6 @@ class Main:
 				self.main_menu = False
 
 			if self.exit_button.clicked:
-				#pygame.quit()
-				#sys.exit()
 				return 2
 
 			pygame.display.update()
