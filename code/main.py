@@ -14,9 +14,9 @@ class Main:
 		self.clock = pygame.time.Clock()
 		self.level = Level(level_map, self.screen)
 		self.main_menu = True
-		self.start_img = pygame.image.load(base_path + '\\buttons\\start-1.png').convert_alpha()
-		self.exit_img= pygame.image.load(base_path + '\\buttons\\exit-1.png').convert_alpha()
-		self.menu_img = pygame.image.load(path.join(base_path, 'title.png')).convert_alpha()
+		self.start_img = pygame.image.load(path.join(base_path, 'buttons', 'start-1.png')).convert_alpha()
+		self.exit_img= pygame.image.load(path.join(base_path, 'buttons', 'exit-1.png')).convert_alpha()
+		# self.menu_img = pygame.image.load(path.join(base_path, 'title.png')).convert_alpha()
 
 		self.start_button = Button(screen_width//2 - self.start_img.get_width()//2, 500, self.start_img)
 		self.exit_button = Button(screen_width//2 - self.exit_img.get_width()//2, 600, self.exit_img)
@@ -51,7 +51,7 @@ class Main:
 
 			if self.main_menu == True:
 				# Draw the main menu buttons
-				self.screen.blit(self.menu_img, (screen_width//2 - self.menu_img.get_width()//2, 50))
+				# self.screen.blit(self.menu_img, (screen_width//2 - self.menu_img.get_width()//2, 50))
 				self.start_button.draw(self.screen)
 				self.exit_button.draw(self.screen)
 
