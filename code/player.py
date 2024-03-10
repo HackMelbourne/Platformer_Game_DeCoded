@@ -33,12 +33,12 @@ class Player(pygame.sprite.Sprite):
         self.jump_speed = -14
 
         # Jumping and ground state
-        # self.jump_count = 0
-        # self.on_ground = False
-        # self.max_jumps = 2
+        self.jump_count = 0
+        self.on_ground = False
+        self.max_jumps = 2
 
-        # self.jumping = False
-        # self.jump_key_pressed = False  # Track if jump key is still pressed
+        self.jumping = False
+        self.jump_key_pressed = False  # Track if jump key is still pressed
 
         # self.is_attacking = False
         # self.is_invincible = False
@@ -171,14 +171,12 @@ class Player(pygame.sprite.Sprite):
         # if self.is_invincible and not self.on_ground and self.attacked_c:
         #     self.direction.x = self.attacked_dir
 
-        # if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
-        #     if not self.jump_key_pressed:
-        #         self.jump()
-        #         self.jump_key_pressed = True
-        # else:
-        #     self.jump_key_pressed = False
         if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
-            self.jump()
+            if not self.jump_key_pressed:
+                self.jump()
+                self.jump_key_pressed = True
+        else:
+            self.jump_key_pressed = False
 
         # # Check for attack input (left mouse click or 'F' key)
         # if mouse_buttons[0] or keys[pygame.K_f]:
@@ -196,17 +194,16 @@ class Player(pygame.sprite.Sprite):
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
-        # if self.on_ground:
-        #     self.jump_count = 0
+        if self.on_ground:
+            self.jump_count = 0
 
     # def jump(self,wind=0):
     def jump(self):
-        # if self.jump_count < self.max_jumps:
-        #     self.direction.y = self.jump_speed
-        #     self.on_ground = False
-        #     self.jump_count += 1
+        if self.jump_count < self.max_jumps:
+            self.direction.y = self.jump_speed
+            self.on_ground = False
+            self.jump_count += 1
         #     self.rect.x += wind
-        self.direction.y = self.jump_speed
 
 
     def update(self):

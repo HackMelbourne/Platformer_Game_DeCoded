@@ -146,6 +146,7 @@ class Level:
                 if player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0 # this statement makes sure apply gravity doesn't make player.direction.y too large
+                    player.on_ground = True
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall

@@ -9,7 +9,7 @@ from os import path
 pygame.init()
 screen = pygame.display.set_mode((screen_width,screen_height))
 clock = pygame.time.Clock()
-level = Level(door_level_map, screen)
+level = Level(player_level_map, screen)
 # main_menu = True
 # start_img = pygame.image.load(path.join(base_path , 'buttons', 'start-1.png')).convert_alpha()
 # exit_img= pygame.image.load(path.join(base_path, 'buttons','exit-1.png')).convert_alpha()
