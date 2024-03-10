@@ -126,29 +126,29 @@ class Level:
     #             elif enemy.direction.x > 0:
     #                 enemy.direction.x = -1
 
-    # def horizontal_movement_collision(self):
-    #     player = self.player.sprite
-    #     player.rect.x += player.direction.x * player.speed
+    def horizontal_movement_collision(self):
+        player = self.player.sprite
+        player.rect.x += player.direction.x * player.speed
 
-    #     for sprite in self.tiles.sprites():
-    #         if sprite.rect.colliderect(player.rect):
-    #             if player.direction.x < 0:
-    #                 player.rect.left = sprite.rect.right
-    #             elif player.direction.x > 0:
-    #                 player.rect.right = sprite.rect.left
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.x < 0:
+                    player.rect.left = sprite.rect.right
+                elif player.direction.x > 0:
+                    player.rect.right = sprite.rect.left
 
-    # def vertical_movement_collision(self):
-    #     player = self.player.sprite
-    #     player.apply_gravity()
+    def vertical_movement_collision(self):
+        player = self.player.sprite
+        player.apply_gravity()
 
-    #     for sprite in self.tiles.sprites():
-    #         if sprite.rect.colliderect(player.rect):
-    #             if player.direction.y > 0:
-    #                 player.rect.bottom = sprite.rect.top
-    #                 player.direction.y = 0 # this statement makes sure apply gravity doesn't make player.direction.y too large
-    #             elif player.direction.y < 0:
-    #                 player.rect.top = sprite.rect.bottom
-    #                 player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.y > 0:
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0 # this statement makes sure apply gravity doesn't make player.direction.y too large
+                elif player.direction.y < 0:
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall
 
 
     # def horizontal_movement_collision(self):
@@ -248,8 +248,8 @@ class Level:
         # self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
         # self.check_door_collision()  # Check for door collisions
         self.player.update()
-        # self.horizontal_movement_collision()
-        # self.vertical_movement_collision()
+        self.horizontal_movement_collision()
+        self.vertical_movement_collision()
         self.player.draw(self.display_surface)
         # self.player.sprite.display_health(self.display_surface)
 
