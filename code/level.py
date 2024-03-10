@@ -37,20 +37,20 @@ class Level:
                     self.tiles.add(tile_sprite)
 
 
-    # def scroll_x(self):
-    #     player = self.player.sprite
-    #     player_x = player.rect.centerx
-    #     direction_x = player.direction.x
+    def scroll_x(self):
+        player = self.player.sprite
+        player_x = player.rect.centerx
+        direction_x = player.direction.x
 
-    #     if player_x < screen_width/4 and direction_x < 0:
-    #         self.world_shift = 8
-    #         player.speed = 0
-    #     elif player_x > screen_width - (screen_width/4) and direction_x > 0:
-    #         self.world_shift = -8
-    #         player.speed = 0
-    #     else:
-    #         self.world_shift = 0
-    #         player.speed = 4
+        if player_x < screen_width/4 and direction_x < 0:
+            self.world_shift = 8
+            player.speed = 0
+        elif player_x > screen_width - (screen_width/4) and direction_x > 0:
+            self.world_shift = -8
+            player.speed = 0
+        else:
+            self.world_shift = 0
+            player.speed = 4
 
 
     # def horizontal_enemy_collision(self):
@@ -245,7 +245,7 @@ class Level:
         # self.doors.update(self.world_shift)
         
         # # Player
-        # self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
+        self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
         # self.check_door_collision()  # Check for door collisions
         self.player.update()
         self.horizontal_movement_collision()
