@@ -29,6 +29,34 @@ player_level_map = [
 'TTTTXXXXTTXXXXXXTTXXTTXXXXXXTTTTXXXXTTXXXXXXTTXXTTXXXXXX'
 ]
 
+door_level_map = [
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'       CCC        CCC CC           CCC        CCC CC    ',
+'    P           C                         C             ',
+'              CC       CCCC               MC       CCCC ',
+'          J CC  CC         C            CC  CC         C',
+'          CCMM      CCC    M          CCMM      CCC    M',
+'          MMMM        MC   M          MMMM        MC   M',
+'    CCCC  MMMMCC  CC  MMCCCM    CCCC  MMMMCC  CC  MMCCCM',
+'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
+]
+
+door_level_map2 = [
+'                                                        ',
+'                                                        ',
+'                                                        ',
+'       CCC        CCC CC           CCC        CCC CC    ',
+'    P           C                         C             ',
+'                       CCCC               MC       CCCC ',
+'                           C            CC  CC         C',
+'                CCCCCCC    M          CCMM      CCC    M',
+'    CC    CCCC        MC   M          MMMM        MC   M',
+'    MMCC  MMMMCC  CC  MMCCCM    CCCC  MMMMCC  CC  MMCCCM',
+'CCCCMMMMCCMMMMMMCCMMCCMMMMMMCCCCMMMMCCMMMMMMCCMMCCMMMMMM'
+]
+
 normal_level_map = [
 '                                                        ',
 '                                                        ',
