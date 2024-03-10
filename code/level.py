@@ -1,7 +1,7 @@
 import pygame
 from tiles import Tile
-from settings import tile_size, screen_width, level_map2
-# from player import Player
+from settings import *
+from player import Player
 # from enemies import Enemy
 # from Door import Door
 
@@ -14,7 +14,7 @@ class Level:
 
     def setup_level(self, layout):
         self.tiles = pygame.sprite.Group()
-        # self.player = pygame.sprite.GroupSingle()
+        self.player = pygame.sprite.GroupSingle()
         # self.enemies = pygame.sprite.Group()
         # self.doors = pygame.sprite.GroupSingle()
 
@@ -23,19 +23,16 @@ class Level:
                 x = col_index * tile_size
                 y = row_index * tile_size
 
-                # if cell == 'P':
-                #     player_sprite = Player((x, y))
-                #     self.player.add(player_sprite)
+                if cell == 'P':
+                    player_sprite = Player((x, y))
+                    self.player.add(player_sprite)
                 # elif cell == 'E':
                 #     enemy = Enemy((x,y))
                 #     self.enemies.add(enemy)
                 # elif cell == 'J':
                 #     door_sprite = Door((x, y))
                 #     self.doors.add(door_sprite)
-                # elif cell != ' ':
-                #     tile_sprite = Tile((x, y), tile_size, cell)
-                #     self.tiles.add(tile_sprite)
-                if cell != ' ':
+                elif cell != ' ':
                     tile_sprite = Tile((x, y), tile_size, cell)
                     self.tiles.add(tile_sprite)
 
@@ -128,6 +125,30 @@ class Level:
     #                 enemy.direction.x = 1
     #             elif enemy.direction.x > 0:
     #                 enemy.direction.x = -1
+
+    # def horizontal_movement_collision(self):
+    #     player = self.player.sprite
+    #     player.rect.x += player.direction.x * player.speed
+
+    #     for sprite in self.tiles.sprites():
+    #         if sprite.rect.colliderect(player.rect):
+    #             if player.direction.x < 0:
+    #                 player.rect.left = sprite.rect.right
+    #             elif player.direction.x > 0:
+    #                 player.rect.right = sprite.rect.left
+
+    # def vertical_movement_collision(self):
+    #     player = self.player.sprite
+    #     player.apply_gravity()
+
+    #     for sprite in self.tiles.sprites():
+    #         if sprite.rect.colliderect(player.rect):
+    #             if player.direction.y > 0:
+    #                 player.rect.bottom = sprite.rect.top
+    #                 player.direction.y = 0 # this statement makes sure apply gravity doesn't make player.direction.y too large
+    #             elif player.direction.y < 0:
+    #                 player.rect.top = sprite.rect.bottom
+    #                 player.direction.y = 0 # this statement ensure tht if the player's top hit bottom of a tile, then it will fall
 
 
     # def horizontal_movement_collision(self):
@@ -224,12 +245,12 @@ class Level:
         # self.doors.update(self.world_shift)
         
         # # Player
-        # self.player.update()
         # self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
         # self.check_door_collision()  # Check for door collisions
+        self.player.update()
         # self.horizontal_movement_collision()
         # self.vertical_movement_collision()
-        # self.player.draw(self.display_surface)
+        self.player.draw(self.display_surface)
         # self.player.sprite.display_health(self.display_surface)
 
         # # Enemy

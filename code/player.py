@@ -5,8 +5,8 @@ from settings import base_path
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.CHARACTER_WIDTH = 50
-        self.CHARACTER_HEIGHT = 60
+        # self.CHARACTER_WIDTH = 50
+        # self.CHARACTER_HEIGHT = 60
         # self.import_character_assets((self.CHARACTER_WIDTH, self.CHARACTER_HEIGHT))
 
         # Player animation state
@@ -17,9 +17,14 @@ class Player(pygame.sprite.Sprite):
         # self.image = self.animations['idle'][self.frame_index]
         # self.rect = self.image.get_rect(topleft=pos)
 
-        # Player attributes
-        self.max_health = 6
-        self.current_health = self.max_health
+        # Player appearance
+        self.image = pygame.Surface((32, 64))
+        self.image.fill('red')
+        self.rect = self.image.get_rect(topleft = pos)
+
+        # # Player attributes
+        # self.max_health = 6
+        # self.current_health = self.max_health
 
         # Player movement
         self.direction = pygame.math.Vector2(0, 0)
@@ -28,12 +33,12 @@ class Player(pygame.sprite.Sprite):
         self.jump_speed = -14
 
         # Jumping and ground state
-        self.jump_count = 0
-        self.on_ground = False
-        self.max_jumps = 2
+        # self.jump_count = 0
+        # self.on_ground = False
+        # self.max_jumps = 2
 
-        self.jumping = False
-        self.jump_key_pressed = False  # Track if jump key is still pressed
+        # self.jumping = False
+        # self.jump_key_pressed = False  # Track if jump key is still pressed
 
         # self.is_attacking = False
         # self.is_invincible = False
@@ -148,34 +153,36 @@ class Player(pygame.sprite.Sprite):
     #         self.current_health -= 1
     #         #self.jump()
 
-    # def get_input(self):
-    #     if self.is_attacking:
-    #         self.direction.x = 0
-    #         return
-    #     keys = pygame.key.get_pressed()
-    #     mouse_buttons = pygame.mouse.get_pressed()
+    def get_input(self):
+        # if self.is_attacking:
+        #     self.direction.x = 0
+        #     return
+        keys = pygame.key.get_pressed()
+        # mouse_buttons = pygame.mouse.get_pressed()
 
-    #     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-    #         self.direction.x = 1
-    #     elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
-    #         self.direction.x = -1
-    #     else:
-    #         self.direction.x = 0
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            self.direction.x = 1
+        elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            self.direction.x = -1
+        else:
+            self.direction.x = 0
 
-    #     # force the player to move in the dirction of the kock back.
-    #     if self.is_invincible and not self.on_ground and self.attacked_c:
-    #         self.direction.x = self.attacked_dir
+        # force the player to move in the dirction of the kock back.
+        # if self.is_invincible and not self.on_ground and self.attacked_c:
+        #     self.direction.x = self.attacked_dir
 
-    #     if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
-    #         if not self.jump_key_pressed:
-    #             self.jump()
-    #             self.jump_key_pressed = True
-    #     else:
-    #         self.jump_key_pressed = False
+        # if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+        #     if not self.jump_key_pressed:
+        #         self.jump()
+        #         self.jump_key_pressed = True
+        # else:
+        #     self.jump_key_pressed = False
+        if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+            self.jump()
 
-    #     # Check for attack input (left mouse click or 'F' key)
-    #     if mouse_buttons[0] or keys[pygame.K_f]:
-    #         self.attack()
+        # # Check for attack input (left mouse click or 'F' key)
+        # if mouse_buttons[0] or keys[pygame.K_f]:
+        #     self.attack()
 
     # def attack(self):
     #     if not self.is_attacking:
@@ -186,21 +193,23 @@ class Player(pygame.sprite.Sprite):
     #             self.state = 'jumpAttack'
     #         self.frame_index = 0
 
-    # def apply_gravity(self):
-    #     self.direction.y += self.gravity
-    #     self.rect.y += self.direction.y
-    #     if self.on_ground:
-    #         self.jump_count = 0
+    def apply_gravity(self):
+        self.direction.y += self.gravity
+        self.rect.y += self.direction.y
+        # if self.on_ground:
+        #     self.jump_count = 0
 
     # def jump(self,wind=0):
-    #     if self.jump_count < self.max_jumps:
-    #         self.direction.y = self.jump_speed
-    #         self.on_ground = False
-    #         self.jump_count += 1
-    #         #self.rect.x += wind
+    def jump(self):
+        # if self.jump_count < self.max_jumps:
+        #     self.direction.y = self.jump_speed
+        #     self.on_ground = False
+        #     self.jump_count += 1
+        #     self.rect.x += wind
+        self.direction.y = self.jump_speed
 
 
-    # def update(self):
-    #     self.get_input()
+    def update(self):
+        self.get_input()
     #     self.update_state()
     #     self.animate()
