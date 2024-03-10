@@ -252,7 +252,7 @@ class Level:
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
         self.player.draw(self.display_surface)
-        # self.player.sprite.display_health(self.display_surface)
+        self.player.sprite.display_health(self.display_surface)
 
         # # Enemy
         # self.vertical_enemy_collision()

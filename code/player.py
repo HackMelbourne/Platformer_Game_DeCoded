@@ -22,9 +22,9 @@ class Player(pygame.sprite.Sprite):
         # self.image.fill('red')
         # self.rect = self.image.get_rect(topleft = pos)
 
-        # # Player attributes
-        # self.max_health = 6
-        # self.current_health = self.max_health
+        # Player attributes
+        self.max_health = 6
+        self.current_health = self.max_health
 
         # Player movement
         self.direction = pygame.math.Vector2(0, 0)
@@ -65,22 +65,22 @@ class Player(pygame.sprite.Sprite):
                     size)
                 for i in range(1, 11)]
 
-    # def deplete_health(self, amount=1):
-    #     self.current_health -= amount
-    #     if self.current_health < 0:
-    #         self.current_health = 0
+    def deplete_health(self, amount=1):
+        self.current_health -= amount
+        if self.current_health < 0:
+            self.current_health = 0
 
-    # def display_health(self, surface):
-    #     """Displays the player's health on the given surface."""
-    #     dist_x, dist_y = 30, 20
-    #     for i in range(self.max_health // 2):
-    #         x = dist_x * (i+1)
-    #         if i < self.current_health // 2:
-    #             surface.blit(self.health_icons['full'], (x, dist_y))
-    #         elif i == self.current_health // 2 and self.current_health % 2 != 0:
-    #             surface.blit(self.health_icons['half'], (x, dist_y))
-    #         else:
-    #             surface.blit(self.health_icons['noHealth'], (x, dist_y))
+    def display_health(self, surface):
+        """Displays the player's health on the given surface."""
+        dist_x, dist_y = 30, 20
+        for i in range(self.max_health // 2):
+            x = dist_x * (i+1)
+            if i < self.current_health // 2:
+                surface.blit(self.health_icons['full'], (x, dist_y))
+            elif i == self.current_health // 2 and self.current_health % 2 != 0:
+                surface.blit(self.health_icons['half'], (x, dist_y))
+            else:
+                surface.blit(self.health_icons['noHealth'], (x, dist_y))
 
     def animate(self):
         animation = self.animations[self.state]
