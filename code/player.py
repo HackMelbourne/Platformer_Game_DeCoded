@@ -85,14 +85,16 @@ class Player(pygame.sprite.Sprite):
             if self.state == 'dead':
                 self.frame_index = len(animation) - 1
             elif self.state == 'attack' or self.state == 'jumpAttack':
-                self.is_attacking = False
+                self.is_attacking = True
                 self.state = 'idle'
             else:
+                self.is_attacking = False
                 self.frame_index = 0
+        
 
         # Flip the image based on the direction
         image = animation[int(self.frame_index)%len(animation)]
-        if self.is_invincible:
+        if self.is_invincible: # if player is invincible then make every alternate frame blank
             if (int(self.frame_index)%len(animation)) % 2 == 0:
                 image = pygame.mask.from_surface(image).to_surface()
                 image.set_colorkey((0,0,0))
@@ -107,6 +109,7 @@ class Player(pygame.sprite.Sprite):
             self.attacked_c = 0
             # checking if the player has already been knocked back then no need to knock back further.
         if self.is_attacking:
+            #self.direction.x = 0
             return
         elif self.direction.x > 0:
             self.facing_right = True
@@ -149,11 +152,26 @@ class Player(pygame.sprite.Sprite):
             #self.jump()
 
     def get_input(self):
-        if self.is_attacking:
-            self.direction.x = 0
-            return
         keys = pygame.key.get_pressed()
         mouse_buttons = pygame.mouse.get_pressed()
+
+        if self.is_attacking:
+            # if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            #     self.direction.x = 1
+            # elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            #     self.direction.x = -1
+            # #self.direction.x = 0
+            # else: 
+            #self.direction.x = 0
+            if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+                if not self.jump_key_pressed:
+                    self.jump()
+                    self.jump_key_pressed = True
+                else:
+                    self.jump_key_pressed = False
+            else:
+                self.direction.x = 0
+            return
 
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.direction.x = 1
@@ -161,6 +179,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
         else:
             self.direction.x = 0
+            
 
         # force the player to move in the dirction of the kock back.
         if self.is_invincible and not self.on_ground and self.attacked_c:
@@ -175,11 +194,20 @@ class Player(pygame.sprite.Sprite):
 
         # Check for attack input (left mouse click or 'F' key)
         if mouse_buttons[0] or keys[pygame.K_f]:
-            self.attack()
+            #self.attack()
+            if self.on_ground:
+                self.state = 'attack'
+            else:
+                self.state = 'jumpAttack'
+            self.frame_index = 0
+            self.is_attacking = True
+
+        else:
+            self.is_attacking = False
 
     def attack(self):
         if not self.is_attacking:
-            self.is_attacking = True
+            #self.is_attacking = True
             if self.on_ground:
                 self.state = 'attack'
             else:
