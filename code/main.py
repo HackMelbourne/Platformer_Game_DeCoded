@@ -50,7 +50,8 @@ class Main:
 			if not self.main_menu:
 				self.level.run()
 			if not self.level.check_player():
-				return 1
+				self.main_menu = True
+				self.level.change_level(level_map)
 
 			if self.main_menu:
 				# Draw the main menu buttons
@@ -71,5 +72,6 @@ class Main:
 
 if __name__ == '__main__':
 	main = Main()
-	while main.run() != 2:
-		main.run()
+	out = 0
+	while out != 2:
+		out = main.run()
