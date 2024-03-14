@@ -14,6 +14,7 @@ class Button():
 
         # get mouse position
         pos = pygame.mouse.get_pos()
+        self.clicked = False
 
         # check mouseover and clicked conditions
         if self.rect.collidepoint(pos):
