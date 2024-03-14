@@ -112,12 +112,3 @@ tile_size = 64
 clock_tick = 1000
 screen_width = 1200
 screen_height = len(level_map) * tile_size
-
-# def import_folder(path_to_folder):
-#     surf_lst = []
-#     for _,_,img_files in walk(path_to_folder):
-#         for img in img_files:
-#             full_path = path.join(path_to_folder, img)
-#             img_surf = pygame.image.load(full_path).convert_alpha()
-#             surf_lst.append(img_surf)
-#     return surf_lst
