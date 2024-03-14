@@ -1,6 +1,6 @@
 import pygame
 from tiles import Tile
-from settings import tile_size, screen_width, level_map2, screen_height
+from settings import tile_size, screen_width, level_map, level_map2, screen_height
 from player import Player
 from enemies import Enemy
 from Door import Door
@@ -99,9 +99,9 @@ class Level:
             if pygame.sprite.collide_rect(player, door):
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
-                    self.change_level()  # Change the level when the player interacts with the door
-                    
-    def change_level(self):
+                    self.change_level(level_map2)  # Change the level when the player interacts with the door
+
+    def change_level(self, level=level_map):
         # Clear all sprite groups
         self.tiles.empty()
         self.player.empty()
@@ -109,8 +109,8 @@ class Level:
         self.doors.empty()
 
         # Load the new level data
-        self.setup_level(level_map2)
-    
+        self.setup_level(level)
+
     def vertical_enemy_collision(self):
         pass
         # for enemy in self.enemies.sprites():
@@ -137,9 +137,9 @@ class Level:
             for sprite in self.tiles.sprites():
                 if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state != 'attack':
 
-                    
+
                     # check if player is on the left of enemy or right and knock in that direction
-                    if player.rect.left >= enemy.rect.left: 
+                    if player.rect.left >= enemy.rect.left:
                         #player.direction.x = 1
                         #player.direction.y = -15
                         #player.rect.x += player.direction.x * player.speed * 2
@@ -152,7 +152,7 @@ class Level:
                         elif enemy.direction.x > 0:
                             enemy.direction.x = -1
 
-                        
+
                     elif player.rect.left <= enemy.rect.left:
                         #player.direction.x = -1
                         #player.direction.y = -15
@@ -166,7 +166,7 @@ class Level:
 
                     player.jump()
                     player.on_ground = False
-                # check collision with the wall 
+                # check collision with the wall
                 if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state == 'attack' and player.direction.x != enemy.direction.x:
                     enemy.kill()
                 if sprite.rect.colliderect(player.rect) and sprite != self.doors.sprite:
@@ -208,9 +208,9 @@ class Level:
                             enemy.direction.x = -1
 
                     player.jump()
-                    player.on_ground = False    
+                    player.on_ground = False
                 if enemy.rect.colliderect(player.rect) and not player.is_invincible and player.state == 'jumpAttack':
-                    enemy.kill()       
+                    enemy.kill()
                 if sprite.rect.colliderect(player.rect):
                     if player.direction.y > 0:
                         player.rect.bottom = sprite.rect.top
@@ -231,7 +231,7 @@ class Level:
         # Doors
         self.doors.draw(self.display_surface)
         self.doors.update(self.world_shift)
-        
+
         # Player
         self.player.update()
         self.scroll_x() # scroll_x before horizontal_movement_collision for moving screen
