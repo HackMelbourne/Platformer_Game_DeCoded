@@ -27,6 +27,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.jump_speed = -14
 
+        self.player_dead = False
+
         # Jumping and ground state
         self.jump_count = 0
         self.on_ground = False
@@ -62,8 +64,9 @@ class Player(pygame.sprite.Sprite):
 
     def deplete_health(self, amount=1):
         self.current_health -= amount
-        if self.current_health < 0:
+        if self.current_health <= 0:
             self.current_health = 0
+            self.player_death()
 
     def display_health(self, surface):
         """Displays the player's health on the given surface."""
@@ -145,7 +148,8 @@ class Player(pygame.sprite.Sprite):
             self.is_invincible = True
             self.attacked_dir = dir
             self.attacked_c = 1
-            self.current_health -= 1
+            self.deplete_health()
+
             #self.jump()
 
     def get_input(self):
@@ -177,6 +181,12 @@ class Player(pygame.sprite.Sprite):
         if mouse_buttons[0] or keys[pygame.K_f]:
             self.attack()
 
+    def player_death(self):
+        self.player_dead = True
+        self.state = 'dead'
+        self.frame_index = 0
+
+
     def attack(self):
         if not self.is_attacking:
             self.is_attacking = True
@@ -201,6 +211,7 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.get_input()
-        self.update_state()
+        if not self.player_dead:
+            self.get_input()
+            self.update_state()
         self.animate()
