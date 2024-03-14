@@ -17,6 +17,11 @@ class Player(pygame.sprite.Sprite):
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
 
+        # Player appearance
+        # self.image = pygame.Surface((32, 64))
+        # self.image.fill('red')
+        # self.rect = self.image.get_rect(topleft = pos)
+
         # Player attributes
         self.max_health = 6
         self.current_health = self.max_health
@@ -202,12 +207,13 @@ class Player(pygame.sprite.Sprite):
         if self.on_ground:
             self.jump_count = 0
 
-    def jump(self,wind=0):
+    # def jump(self,wind=0):
+    def jump(self):
         if self.jump_count < self.max_jumps:
             self.direction.y = self.jump_speed
             self.on_ground = False
             self.jump_count += 1
-            #self.rect.x += wind
+        #     self.rect.x += wind
 
 
     def update(self):
