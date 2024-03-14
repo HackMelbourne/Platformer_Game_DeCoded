@@ -1,6 +1,6 @@
 import pygame
 from os import path
-from settings import base_path, import_folder
+from settings import base_path
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,pos) -> None:
