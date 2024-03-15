@@ -18,6 +18,9 @@ class Main:
 		self.exit_img = pygame.image.load(path.join(base_path, 'buttons', 'exit-1.png')).convert_alpha()
 		self.menu_img = pygame.image.load(path.join(base_path, 'title.png')).convert_alpha()
 
+		self.menu_background_img = pygame.transform.scale(pygame.image.load(path.join(base_path, 'sky1.png')).convert(), self.screen.get_size())
+		self.game_background_img = pygame.transform.scale(pygame.image.load(path.join(base_path, 'bg.png')).convert(), self.screen.get_size())
+
 		self.start_button = Button(screen_width//2 - self.start_img.get_width()//2, 500, self.start_img)
 		self.exit_button = Button(screen_width//2 - self.exit_img.get_width()//2, 600, self.exit_img)
 		pygame.display.set_caption("2D Platformer Game")
@@ -34,14 +37,11 @@ class Main:
 
 			# Check if the game is in the main menu state
 			if self.main_menu:
-				# Load the main menu background image
-				background_img = pygame.image.load(path.join(base_path, 'sky1.png')).convert()
+                # Load the main menu background image
+				background_img = self.menu_background_img
 			else:
-				# Load the level background image
-				background_img = pygame.image.load(path.join(base_path, 'bg.png')).convert()
-
-			# Resize the background image to match the screen size
-			background_img = pygame.transform.scale(background_img, self.screen.get_size())
+				# Resize the background image to match the screen size
+				background_img = self.game_background_img
 
 			# Blit the background image onto the screen
 			self.screen.blit(background_img, (0, 0))
